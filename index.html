@@ -177,14 +177,19 @@ table.df td:first-child{font-weight:700;color:#c8a951;font-family:'IBM Plex Mono
 .tip-hs{width:50px;height:50px}
 .footer{font-size:14px;padding:22px;letter-spacing:4px}
 .azalea{transform-origin:bottom center}
-.grass-bed>.azalea{width:120px!important;opacity:1!important}
-.hdr>.azalea{width:140px!important}
-.ground-flowers>.azalea{width:130px!important}
+.grass-bed>.azalea{width:180px!important;opacity:1!important}
+.hdr>.azalea{width:200px!important}
+.ground-flowers>.azalea{width:180px!important}
 }
 @media(min-width:1024px){
-.grass-bed>.azalea{width:160px!important}
-.hdr>.azalea{width:170px!important}
-.ground-flowers>.azalea{width:160px!important}
+.grass-bed>.azalea{width:240px!important}
+.hdr>.azalea{width:260px!important}
+.ground-flowers>.azalea{width:220px!important}
+}
+@media(min-width:1400px){
+.grass-bed>.azalea{width:300px!important}
+.hdr>.azalea{width:320px!important}
+.ground-flowers>.azalea{width:280px!important}
 }
 </style>
 </head>
@@ -807,36 +812,32 @@ function addAzaleas(){
       grassSvg+='<path d="M'+gx+',60 Q'+(gx+gbend)+','+(60-gh*0.6)+' '+(gx+gbend*1.5)+','+(60-gh)+'" fill="none" stroke="'+ggreen+'" stroke-width="'+gw+'" stroke-linecap="round" opacity="'+(0.5+Math.random()*0.5)+'"/>';
     }
     grassSvg+='</svg>';
-    board.insertAdjacentHTML('beforeend',
-      '<div class="azalea" style="right:-28px;top:10px;width:72px;transform:rotate(-9deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-32px;top:43px;width:82px;transform:rotate(4deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-20px;top:90px;width:68px;transform:rotate(8deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-35px;top:140px;width:75px;transform:rotate(-6deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-25px;top:190px;width:65px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-33px;top:245px;width:78px;transform:rotate(-9deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-30px;top:310px;width:70px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-38px;top:375px;width:74px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-28px;top:440px;width:66px;transform:rotate(7deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-35px;top:510px;width:72px;transform:rotate(-4deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-30px;top:580px;width:68px;transform:rotate(10deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-40px;top:650px;width:75px;transform:rotate(-8deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-28px;top:720px;width:62px;transform:rotate(6deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-35px;top:790px;width:70px;transform:rotate(-11deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-42px;top:879px;width:68px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-33px;top:30px;width:75px;transform:rotate(6deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-38px;top:75px;width:70px;transform:rotate(-15deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-37px;top:130px;width:68px;transform:rotate(1deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-30px;top:184px;width:72px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-26px;top:248px;width:65px;transform:rotate(12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-39px;top:311px;width:68px;transform:rotate(12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-37px;top:375px;width:72px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-32px;top:440px;width:70px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-33px;top:500px;width:64px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-31px;top:560px;width:72px;transform:rotate(-3deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-42px;top:625px;width:65px;transform:rotate(-15deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-35px;top:690px;width:68px;transform:rotate(8deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-30px;top:755px;width:72px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-38px;top:820px;width:66px;transform:rotate(-10deg)">'+randAzalea()+'</div>'+
+    // Build azalea vine along both sides - dense, overlapping, lush
+    var az='';
+    // RIGHT side - staggered clusters every ~55px
+    for(var ri=0;ri<18;ri++){
+      var ry=10+ri*55+Math.floor(Math.random()*15);
+      var roff=-5-Math.floor(Math.random()*20);
+      var rw=75+Math.floor(Math.random()*25);
+      var rrot=-15+Math.floor(Math.random()*30);
+      az+='<div class="azalea" style="right:'+roff+'px;top:'+ry+'px;width:'+rw+'px;transform:rotate('+rrot+'deg)">'+randAzalea()+'</div>';
+      // Second depth layer offset behind
+      if(ri%2===0){
+        az+='<div class="azalea" style="right:'+(roff-15)+'px;top:'+(ry+20)+'px;width:'+(rw-10)+'px;opacity:.7;transform:rotate('+(rrot+10)+'deg)">'+randAzalea()+'</div>';
+      }
+    }
+    // LEFT side - staggered clusters every ~55px
+    for(var li=0;li<18;li++){
+      var ly=20+li*55+Math.floor(Math.random()*15);
+      var loff=-5-Math.floor(Math.random()*20);
+      var lw=75+Math.floor(Math.random()*25);
+      var lrot=-15+Math.floor(Math.random()*30);
+      az+='<div class="azalea" style="left:'+loff+'px;top:'+ly+'px;width:'+lw+'px;transform:rotate('+lrot+'deg)">'+randAzalea()+'</div>';
+      if(li%2===1){
+        az+='<div class="azalea" style="left:'+(loff-15)+'px;top:'+(ly+20)+'px;width:'+(lw-10)+'px;opacity:.7;transform:rotate('+(lrot-10)+'deg)">'+randAzalea()+'</div>';
+      }
+    }
+    board.insertAdjacentHTML('beforeend', az+
       '<div class="grass-blades">'+grassSvg+'</div>'+
       '<div class="ground-flowers">'+
         '<div class="azalea" style="left:-12px;bottom:0;width:95px;z-index:1">'+randAzalea()+'</div>'+

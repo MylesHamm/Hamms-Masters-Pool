@@ -176,6 +176,15 @@ table.df td:first-child{font-weight:700;color:#c8a951;font-family:'IBM Plex Mono
 .tip-r{font-size:13px;padding:4px 0}
 .tip-hs{width:50px;height:50px}
 .footer{font-size:14px;padding:22px;letter-spacing:4px}
+.azalea{transform-origin:bottom center}
+.grass-bed>.azalea{width:120px!important;opacity:1!important}
+.hdr>.azalea{width:140px!important}
+.ground-flowers>.azalea{width:130px!important}
+}
+@media(min-width:1024px){
+.grass-bed>.azalea{width:160px!important}
+.hdr>.azalea{width:170px!important}
+.ground-flowers>.azalea{width:160px!important}
 }
 </style>
 </head>
@@ -776,8 +785,12 @@ function addAzaleas(){
   var hdr=document.querySelector('.hdr');
   if(hdr){hdr.style.position='relative';hdr.style.overflow='visible';
     hdr.insertAdjacentHTML('beforeend',
-      '<div class="azalea" style="left:-10px;bottom:-12px;width:95px;opacity:1">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-10px;bottom:-12px;width:90px;opacity:1;transform:scaleX(-1)">'+randAzalea()+'</div>'
+      '<div class="azalea" style="left:-10px;bottom:-12px;width:105px;opacity:1">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:60px;bottom:-15px;width:85px;opacity:.9">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-10px;bottom:-12px;width:100px;opacity:1;transform:scaleX(-1)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:55px;bottom:-15px;width:80px;opacity:.9;transform:scaleX(-1)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-15px;top:-8px;width:75px;opacity:.85;transform:rotate(5deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-15px;top:-8px;width:70px;opacity:.85;transform:scaleX(-1) rotate(5deg)">'+randAzalea()+'</div>'
     );
   }
   // LEADERBOARD: Grass bed with flowers growing from ground
@@ -795,23 +808,35 @@ function addAzaleas(){
     }
     grassSvg+='</svg>';
     board.insertAdjacentHTML('beforeend',
-      '<div class="azalea" style="right:-28px;top:10px;width:62px;transform:rotate(-9deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-32px;top:43px;width:72px;transform:rotate(4deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-33px;top:71px;width:75px;transform:rotate(6deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-38px;top:103px;width:63px;transform:rotate(-15deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-37px;top:144px;width:61px;transform:rotate(1deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-30px;top:184px;width:65px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-33px;top:221px;width:70px;transform:rotate(-9deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-26px;top:248px;width:57px;transform:rotate(12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-34px;top:280px;width:72px;transform:rotate(-13deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-39px;top:311px;width:60px;transform:rotate(12deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-37px;top:362px;width:64px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-32px;top:412px;width:64px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-33px;top:462px;width:51px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-31px;top:542px;width:65px;transform:rotate(-3deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-42px;top:612px;width:57px;transform:rotate(-15deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="left:-30px;top:739px;width:60px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
-      '<div class="azalea" style="right:-42px;top:879px;width:58px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-28px;top:10px;width:72px;transform:rotate(-9deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-32px;top:43px;width:82px;transform:rotate(4deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-20px;top:90px;width:68px;transform:rotate(8deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-35px;top:140px;width:75px;transform:rotate(-6deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-25px;top:190px;width:65px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-33px;top:245px;width:78px;transform:rotate(-9deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-30px;top:310px;width:70px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-38px;top:375px;width:74px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-28px;top:440px;width:66px;transform:rotate(7deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-35px;top:510px;width:72px;transform:rotate(-4deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-30px;top:580px;width:68px;transform:rotate(10deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-40px;top:650px;width:75px;transform:rotate(-8deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-28px;top:720px;width:62px;transform:rotate(6deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-35px;top:790px;width:70px;transform:rotate(-11deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="right:-42px;top:879px;width:68px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-33px;top:30px;width:75px;transform:rotate(6deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-38px;top:75px;width:70px;transform:rotate(-15deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-37px;top:130px;width:68px;transform:rotate(1deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-30px;top:184px;width:72px;transform:rotate(-12deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-26px;top:248px;width:65px;transform:rotate(12deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-39px;top:311px;width:68px;transform:rotate(12deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-37px;top:375px;width:72px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-32px;top:440px;width:70px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-33px;top:500px;width:64px;transform:rotate(11deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-31px;top:560px;width:72px;transform:rotate(-3deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-42px;top:625px;width:65px;transform:rotate(-15deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-35px;top:690px;width:68px;transform:rotate(8deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-30px;top:755px;width:72px;transform:rotate(5deg)">'+randAzalea()+'</div>'+
+      '<div class="azalea" style="left:-38px;top:820px;width:66px;transform:rotate(-10deg)">'+randAzalea()+'</div>'+
       '<div class="grass-blades">'+grassSvg+'</div>'+
       '<div class="ground-flowers">'+
         '<div class="azalea" style="left:-12px;bottom:0;width:95px;z-index:1">'+randAzalea()+'</div>'+

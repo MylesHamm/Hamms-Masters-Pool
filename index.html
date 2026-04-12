@@ -408,10 +408,10 @@ function renderBoard(){
   // Biggest mover
   if(bigMoveGolfer){var mvS=sc[bigMoveGolfer];var mvEff=getEff(mvS)||0;var thruTxt=mvS.thru?(" thru "+mvS.thru):"";document.getElementById("mvr-n").textContent=bigMoveGolfer+" ("+ftp(mvEff)+thruTxt+")";document.getElementById("mvr").classList.add("show")}else{document.getElementById("mvr").classList.remove("show")}
   // Daily winners
-  document.getElementById("dw-thu").textContent=getSBW("thu","high")||DAILY.thu||"";
-  document.getElementById("dw-fri").textContent=getSBW("fri","high")||DAILY.fri||"";
-  var satW=getSBW("sat","high");document.getElementById("dw-sat").textContent=satW?(satW+" yds"):DAILY.sat||"";
-  document.getElementById("dw-sun").textContent=getSBW("sun","low")||DAILY.sun||"";
+  document.getElementById("dw-thu").textContent=DAILY.thu||getSBW("thu","high")||"";
+  document.getElementById("dw-fri").textContent=DAILY.fri||getSBW("fri","high")||"";
+  document.getElementById("dw-sat").textContent=DAILY.sat||getSBW("sat","high")||"";
+  document.getElementById("dw-sun").textContent=DAILY.sun||getSBW("sun","low")||"";
 }
 
 function gRow(g,counting){

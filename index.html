@@ -320,6 +320,12 @@ function updateCD(){var n=Date.now(),d=TEE-n;if(d<=0){document.getElementById("c
 var cdInt=setInterval(function(){updateCD();var d=new Date('2026-04-09T12:00:00Z').getTime()-Date.now();if(d<=0)clearInterval(cdInt)},1000);updateCD();
 
 // ESPN FETCH
+// SATURDAY DRIVING DISTANCE - R3 data from Masters.com
+var SAT_DD={"Rory McIlroy":343.0,"Cameron Young":326.5,"Chris Gotterup":327.5,"Jon Rahm":316.5,"Ludvig \u00c5berg":316.0,"Brooks Koepka":316.0,"Viktor Hovland":314.0,"Jason Day":309.0,"Matt Fitzpatrick":307.0,"Hideki Matsuyama":305.0,"Xander Schauffele":302.0,"Jordan Spieth":301.0,"Shane Lowry":296.0,"Justin Rose":295.0,"Scottie Scheffler":294.5,"Patrick Reed":294.0,"Tommy Fleetwood":293.0,"Collin Morikawa":281.5};
+
+// HARDCODED CUT OVERRIDES - 2026 Masters cut at +4
+var CUT_PLAYERS={"Bryson DeChambeau":true,"Robert MacIntyre":true,"Min Woo Lee":true,"Akshay Bhatia":true};
+
 function fetchScores(){
   document.getElementById("st").textContent="Fetching...";
   fetch("https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard").then(function(r){return r.json()}).then(function(d){
@@ -340,6 +346,8 @@ function fetchScores(){
         var today=curRd&&curRd.displayValue?curRd.displayValue:"";
         // Store hole-by-hole for all rounds
         var hbhRds=[];allLS.forEach(function(rd){if(rd.linescores&&rd.linescores.length>0){var holes=[];rd.linescores.forEach(function(h){holes.push({strokes:parseInt(h.value)||0,par:h.scoreType?parseInt(h.scoreType.displayValue)||0:0})});hbhRds.push(holes)}});
+        if(CUT_PLAYERS[n])cut=true;
+        if(cut&&rds.length>0&&rds.length<4){adj=0;rds.forEach(function(r){adj+=r-PAR});adj+=(4-rds.length)*8;}
         sc[n]={rounds:rds,toPar:isNaN(tp)?null:tp,adj:adj,cut:cut,today:today,thru:thru,hbhRds:hbhRds};
         if(p.athlete){
           ath[n]={id:p.athlete.id||"",pos:p.order?("T"+p.order):"",country:p.athlete.flag&&p.athlete.flag.alt||"",hs:p.athlete.headshot&&p.athlete.headshot.href||""};
@@ -356,7 +364,9 @@ function fetchScores(){
   }).catch(function(){document.getElementById("st").textContent="ESPN unavailable";renderBoard()});
 }
 
-function gs2(n){if(!n)return null;if(sc[n])return sc[n];var lo=n.toLowerCase();for(var k in sc)if(k.toLowerCase()===lo)return sc[k];return null}
+function gs2(n){if(!n)return null;if(sc[n])return sc[n];var lo=n.toLowerCase();for(var k in sc)if(k.toLowerCase()===lo)return sc[k];
+  if(CUT_PLAYERS[n])return{rounds:[],toPar:null,adj:16,cut:true,today:"",thru:"",hbhRds:[]};
+  return null}
 function getEff(s){if(!s)return null;var base=s.toPar!=null?s.toPar:null;if(base==null)return null;var pen=s.cut&&s.rounds.length>0&&s.rounds.length<4?(4-s.rounds.length)*8:0;return base+pen}
 function ga(n){if(!n)return{};var a={},src=ath[n];var lo=n.toLowerCase();if(!src){for(var k in ath)if(k.toLowerCase()===lo){src=ath[k];break}}if(src){for(var k in src)a[k]=src[k]}var hd=HEADSHOTS[n];if(!hd){for(var k in HEADSHOTS)if(k.toLowerCase()===lo){hd=HEADSHOTS[k];break}}if(hd){if(!a.hs)a.hs=hd.hs;if(!a.id)a.id=hd.id}return a}
 function ftp(v){if(v==null)return"--";if(v===0)return"E";return v>0?"+"+v:""+v}
@@ -565,14 +575,25 @@ function fetchMasters(){if(mastersFetching)return;mastersFetching=true;
 function parseMPlayer(p){var nm=p.full_name||p.display_name||p.player_name||(p.first_name?p.first_name+" "+p.last_name:"")||"";if(!nm)return;if(p.last_highlight||p.id){mastersHL[nm]={id:p.id||"",highlight:p.last_highlight||"",today:p.today||"",thru:p.thru||"",pos:p.pos||""}}hbh[nm]=hbh[nm]||{};[1,2,3,4].forEach(function(rd){var rk="r"+rd,rData=p["round"+rd]||p[rk]||null;if(rData&&(rData.holes||rData.scores)){var src=rData.holes||rData.scores;if(Array.isArray(src)){hbh[nm][rk]=[];src.forEach(function(h){hbh[nm][rk].push(typeof h==="object"?(parseInt(h.strokes)||0):(parseInt(h)||0))})}}if(rData&&rData.driving_distance){ddist[nm]=ddist[nm]||{};ddist[nm][rk]=parseFloat(rData.driving_distance)||0}})}
 function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
 function fHBH(n,r){if(hbh[n]&&hbh[n][r])return hbh[n][r];var lo=norm(n);for(var k in hbh)if(norm(k)===lo&&hbh[k][r])return hbh[k][r];var ln=n.split(" ").pop().toLowerCase();for(var k in hbh)if(k.toLowerCase().indexOf(ln)>=0&&hbh[k][r])return hbh[k][r];return null}
-function fDD(n,r){if(ddist[n]&&ddist[n][r])return ddist[n][r];var lo=norm(n);for(var k in ddist)if(norm(k)===lo&&ddist[k][r])return ddist[k][r];var ln=n.split(" ").pop().toLowerCase();for(var k in ddist)if(k.toLowerCase().indexOf(ln)>=0&&ddist[k][r])return ddist[k][r];return 0}
+function fDD(n,r){
+  if(r==="r3"&&Object.keys(SAT_DD).length>0){
+    if(SAT_DD[n])return SAT_DD[n];var lo=norm(n);for(var k in SAT_DD)if(norm(k)===lo)return SAT_DD[k];
+    var ln=n.split(" ").pop().toLowerCase();for(var k in SAT_DD)if(k.toLowerCase().indexOf(ln)>=0)return SAT_DD[k];
+  }
+  if(ddist[n]&&ddist[n][r])return ddist[n][r];var lo=norm(n);for(var k in ddist)if(norm(k)===lo&&ddist[k][r])return ddist[k][r];var ln=n.split(" ").pop().toLowerCase();for(var k in ddist)if(k.toLowerCase().indexOf(ln)>=0&&ddist[k][r])return ddist[k][r];return 0}
 
 function calcSB(){
   sbd={thu:{},fri:{},sat:{},sun:{}};
   T.forEach(function(t){var total=0,has=false;(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r1");if(!h)return;has=true;h.forEach(function(s,i){var d=s-HPARS[i];if(d<0)total+=Math.abs(d)})});if(has)sbd.thu[t]=total});
   T.forEach(function(t){var total=0,has=false;(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r2");if(!h)return;has=true;h.forEach(function(s,i){var d=s-HPARS[i];if(d>0)total+=d})});if(has)sbd.fri[t]=total});
   T.forEach(function(t){var best=0,bp="";(PICKS[t]||[]).forEach(function(g){if(!g)return;var d=fDD(g,"r3");if(d>best){best=d;bp=g}});if(best>0)sbd.sat[t]=best});
-  T.forEach(function(t){var as=[];(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r4");if(!h||h.length<13)return;as.push(h[10]+h[11]+h[12])});as.sort(function(a,b){return a-b});if(as.length>=2)sbd.sun[t]=as[0]+as[1]});
+  T.forEach(function(t){var as=[];(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r4");if(!h||h.length<11)return;
+    var h11=h[10]!=null?h[10]:null,h12=h[11]!=null?h[11]:null,h13=h[12]!=null?h[12]:null;
+    if(h11!=null&&h12!=null&&h13!=null)as.push(h11+h12+h13);
+    else if(h11!=null||h12!=null){var partial=0;if(h11!=null)partial+=h11;if(h12!=null)partial+=h12;if(h13!=null)partial+=h13;as.push(partial)}
+  });as.sort(function(a,b){return a-b});
+  if(as.length>=2)sbd.sun[t]=as[0]+as[1];
+  else if(as.length===1)sbd.sun[t]=as[0]});
 }
 
 function renderProps(){

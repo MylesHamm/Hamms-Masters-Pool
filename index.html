@@ -584,8 +584,8 @@ function fDD(n,r){
 
 function calcSB(){
   sbd={thu:{},fri:{},sat:{},sun:{}};
-  T.forEach(function(t){var total=0,has=false;(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r1");if(!h)return;has=true;h.forEach(function(s,i){var d=s-HPARS[i];if(d<0)total+=Math.abs(d)})});if(has)sbd.thu[t]=total});
-  T.forEach(function(t){var total=0,has=false;(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r2");if(!h)return;has=true;h.forEach(function(s,i){var d=s-HPARS[i];if(d>0)total+=d})});if(has)sbd.fri[t]=total});
+  T.forEach(function(t){var total=0,has=false;(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r1");if(!h)return;has=true;h.forEach(function(s,i){if(s===null||s===undefined)return;var d=s-HPARS[i];if(d<0)total+=Math.abs(d)})});if(has)sbd.thu[t]=total});
+  T.forEach(function(t){var total=0,has=false;(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r2");if(!h)return;has=true;h.forEach(function(s,i){if(s===null||s===undefined)return;var d=s-HPARS[i];if(d>0)total+=d})});if(has)sbd.fri[t]=total});
   T.forEach(function(t){var best=0,bp="";(PICKS[t]||[]).forEach(function(g){if(!g)return;var d=fDD(g,"r3");if(d>best){best=d;bp=g}});if(best>0)sbd.sat[t]=best});
   T.forEach(function(t){var as=[];(PICKS[t]||[]).forEach(function(g){if(!g)return;var h=fHBH(g,"r4");if(!h||h.length<11)return;
     var h11=h[10]!=null?h[10]:null,h12=h[11]!=null?h[11]:null,h13=h[12]!=null?h[12]:null;

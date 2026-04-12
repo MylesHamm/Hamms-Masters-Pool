@@ -425,15 +425,7 @@ function renderBoard(){setTimeout(showWinnerBanner,500);
   document.getElementById("dw-fri").textContent=DAILY.fri||getSBW("fri","high")||"";
   document.getElementById("dw-sat").textContent=DAILY.sat||getSBW("sat","high")||"";
   document.getElementById("dw-sun").textContent=DAILY.sun||getSBW("sun","low")||"";
-  // Winner banner when tournament is final
-  var evStatus="";try{evStatus=document.getElementById("st").textContent}catch(e){}
-  var isFinal=evStatus.indexOf("Final")>=0||evStatus.indexOf("final")>=0;
-  // Also check if all golfers have 4 rounds
-  var allDone=true;for(var ri=0;ri<ranked.length;ri++){var rg=ranked[ri].golfers||[];for(var gi=0;gi<rg.length;gi++){if(rg[gi].name&&!rg[gi].cut&&rg[gi].rounds.length<4)allDone=false}}
-  if((isFinal||allDone)&&ranked.length>0&&ranked[0].overall!=null){
-    document.getElementById("wb").classList.add("show");
 
-  }
 }
 
 function gRow(g,counting){

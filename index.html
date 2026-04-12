@@ -310,7 +310,7 @@ var ODDS={
 "Hideki Matsuyama":"+2700","Akshay Bhatia":"+5700",
 "Chris Gotterup":"+4200","Jordan Spieth":"+4200","Viktor Hovland":"+4500"
 };
-var sc={},ath={},hbh={},ddist={},sbd={thu:{},fri:{},sat:{},sun:{}},mastersHL={};
+var tourneyStatus="";var sc={},ath={},hbh={},ddist={},sbd={thu:{},fri:{},sat:{},sun:{}},mastersHL={};
 // Augusta hole positions for SVG map (x,y out of 100)
 var HPOS=[[54,18],[54,48],[34,38],[18,37],[22,62],[26,48],[56,54],[52,24],[78,34],[80,64],[66,84],[57,89],[37,71],[72,68],[37,58],[29,53],[65,59],[79,37]];
 
@@ -355,7 +355,7 @@ function fetchScores(){
           ath[n]={id:p.athlete.id||"",pos:p.order?("T"+p.order):"",country:p.athlete.flag&&p.athlete.flag.alt||"",hs:p.athlete.headshot&&p.athlete.headshot.href||""};
         }
       });
-      var st=ev.status&&ev.status.type&&ev.status.type.name;
+      var st=ev.status&&ev.status.type&&ev.status.type.name;tourneyStatus=st||"";
       if(st!=="STATUS_SCHEDULED")document.getElementById("cd").style.display="none";
       document.getElementById("st").innerHTML=(st==="STATUS_IN_PROGRESS"?'<span class="ldot"></span>LIVE - ':'')+new Date().toLocaleTimeString();
       document.getElementById("sbar").classList.add("pulse");
